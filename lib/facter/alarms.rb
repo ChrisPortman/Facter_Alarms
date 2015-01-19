@@ -28,8 +28,8 @@ Facter.add(:alarms) do
   alarm_instances.each do |obj|
     begin
       name_method  = obj.method(:name)
-      test_method  = obj.method(:test)
-      state_method = obj.method(:state)
+      test_method  = obj.method(:get_result)
+      state_method = obj.method(:get_state)
       
       alarms[name_method.call] = {
         'value' => test_method.call,

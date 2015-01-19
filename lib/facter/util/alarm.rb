@@ -1,9 +1,10 @@
 module Facter::Util
   class Alarm
-    attr_reader :config
+    attr_reader :config :result
 
     def initialize(config = nil)
       @config = config
+      @result = nil
     end
     
     def self.alarms
@@ -17,6 +18,18 @@ module Facter::Util
       n.sub(/^.*::/, '').downcase
     end
 
+    def get_result
+      if result.nil?
+        test
+      else
+        result
+      end
+    end
+    
+    def get_state
+      state
+    end
+    
     def test
       'Not Implemented'
     end
