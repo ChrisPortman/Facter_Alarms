@@ -19,10 +19,10 @@ module Facter::Util
         critical = 15
       end
       
-      case result
-      when > critical
+      case
+      when result > critical
         'CRITICAL'
-      when > warning
+      when result > warning
         'WARNING'
       else
         'OK'
