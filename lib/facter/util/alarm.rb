@@ -1,6 +1,6 @@
 module Facter::Util
   class Alarm
-    attr_reader :config :result
+    attr_reader :config, :result
 
     def initialize(config = nil)
       @config = config
