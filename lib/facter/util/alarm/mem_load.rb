@@ -1,10 +1,19 @@
 module Facter::Util
-  class Alarm::Cpu_load < Facter::Util::Alarm
+  class Alarm::Mem_load < Facter::Util::Alarm
     def test
+      mem_info = {}
       begin
-        cpu_load = File.read('/proc/loadavg')
+        File.readlines('/proc/loadavg').each do |l|
+          if match = /^(.+):\s+(\d+)/.match(l)
+            mem_info[match[1]] = match[2]
+          end
+        end
       rescue
+        return {}
       end
+
+      metrics = {}
+      metrics['mem_used'] = mem_info[]
 
       num_cpus = Facter.value(:processorcount) || 1
       cpu_load.split(/\s+/)[1].to_f / num_cpus.to_i

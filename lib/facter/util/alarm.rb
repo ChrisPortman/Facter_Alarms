@@ -1,10 +1,11 @@
 module Facter::Util
   class Alarm
-    attr_reader :config, :result
+    attr_reader :config, :result, :status
 
     def initialize(config = nil)
-      @config = config
+      @config = config[name] || {}
       @result = nil
+      @state  = nil
     end
     
     def self.alarms
@@ -20,14 +21,22 @@ module Facter::Util
 
     def get_result
       if result.nil?
-        test
+        @result = test
       else
         result
       end
     end
     
-    def get_state
-      state
+    def get_status
+      if @status.nil?
+        @status = state
+      else
+        state
+      end
+    end
+    
+    def get_message
+      message
     end
     
     def test
@@ -36,6 +45,10 @@ module Facter::Util
     
     def state
       'OK'
+    end
+    
+    def message
+      nil
     end
   end
 end

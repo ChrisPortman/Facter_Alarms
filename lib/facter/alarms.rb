@@ -1,6 +1,7 @@
 require 'facter'
 require 'yaml'
-require 'facter/util/alarm'
+#require 'facter/util/alarm'
+require_relative  'util/alarm'
 
 Facter.add(:alarms) do
   confine :kernel => :linux
@@ -27,14 +28,16 @@ Facter.add(:alarms) do
 
   alarm_instances.each do |obj|
     begin
-      name_method  = obj.method(:name)
-      test_method  = obj.method(:get_result)
-      state_method = obj.method(:get_state)
+      name_method    = obj.method(:name)
+      result_method  = obj.method(:get_result)
+      status_method  = obj.method(:get_status)
+      message_method = obj.method(:get_message)
       
       alarms[name_method.call] = {
-        'value' => test_method.call,
-        'state' => state_method.call,
-      }
+        'value'   => result_method.call,
+        'state'   => status_method.call,
+        'message' => message_method.call,
+      } .reject { |k,v| v.nil? }
     rescue
     end
   end
