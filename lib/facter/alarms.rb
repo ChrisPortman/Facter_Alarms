@@ -1,7 +1,7 @@
 require 'facter'
 require 'yaml'
-#require 'facter/util/alarm'
-require_relative  'util/alarm'
+require 'facter/util/alarm'
+#require_relative  'util/alarm'
 
 Facter.add(:alarms) do
   confine :kernel => :linux
